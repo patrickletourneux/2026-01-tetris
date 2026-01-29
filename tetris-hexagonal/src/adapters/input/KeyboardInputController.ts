@@ -1,5 +1,5 @@
-import type { IInputController } from '../../ports/IInputController';
-import { InputAction } from '../../ports/IInputController';
+import type { IInputController } from '../../domain/ports/IInputController';
+import { InputAction } from '../../domain/ports/IInputController';
 
 export class KeyboardInputController implements IInputController {
   private onAction: ((action: InputAction) => void) | null = null;

@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
-import { GameBoard } from './adapters/ui/GameBoard';
-import { GameInfo } from './adapters/ui/GameInfo';
-import { useAppDispatch } from './domain/store/hooks';
-import { store } from './domain/store/store';
-import { GameController } from './domain/controllers/GameController';
+import { GameBoard } from './ui/GameBoard';
+import { GameInfo } from './ui/GameInfo';
+import { GameController } from './adapters/controllers/GameController';
+import { CanvasRenderer } from './adapters/canvas/CanvasRenderer';
+import { KeyboardInputController } from './adapters/input/KeyboardInputController';
+import { ReduxGameActions } from './adapters/redux/ReduxGameActions';
 import './App.css';
 
 function App() {
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    const controller = new GameController(dispatch, () => store.getState());
+    const renderer = new CanvasRenderer();
+    const inputController = new KeyboardInputController();
+    const gameActions = new ReduxGameActions();
+    const controller = new GameController(renderer, inputController, gameActions);
 
     return () => {
       controller.cleanup();
     };
-  }, [dispatch]);
+  });
 
   return (
     <div style={{

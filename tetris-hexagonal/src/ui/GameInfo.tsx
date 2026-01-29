@@ -1,18 +1,22 @@
-import { GameStatus } from '../../domain/types';
-import { useAppDispatch, useAppSelector } from '../../domain/store/hooks';
-import { startGame, pauseGame, resumeGame } from '../../domain/store/gameSlice';
+import { GameStatus } from '../domain/types';
+import { useGameState } from '../adapters/redux/useGameState';
 
 export function GameInfo() {
-  const dispatch = useAppDispatch();
-  const gameState = useAppSelector((state) => state.game);
+  const {
+    status,
+    score,
+    level,
+    linesCleared,
+    nextPiece,
+    startGame,
+    pauseGame,
+    resumeGame
+  } = useGameState();
 
-  const handleStart = () => dispatch(startGame());
-  const handlePause = () => dispatch(pauseGame());
-  const handleResume = () => dispatch(resumeGame());
   const renderNextPiece = () => {
-    if (!gameState.nextPiece) return null;
+    if (!nextPiece) return null;
 
-    const { shape, color } = gameState.nextPiece;
+    const { shape, color } = nextPiece;
     const cellSize = 20;
 
     return (
@@ -49,13 +53,13 @@ export function GameInfo() {
 
       <div style={{ marginBottom: '20px' }}>
         <div style={{ marginBottom: '10px' }}>
-          <strong>Score:</strong> {gameState.score}
+          <strong>Score:</strong> {score}
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <strong>Level:</strong> {gameState.level}
+          <strong>Level:</strong> {level}
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <strong>Lines:</strong> {gameState.linesCleared}
+          <strong>Lines:</strong> {linesCleared}
         </div>
       </div>
 
@@ -67,27 +71,27 @@ export function GameInfo() {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {gameState.status === GameStatus.IDLE && (
-          <button onClick={handleStart} style={buttonStyle}>
+        {status === GameStatus.IDLE && (
+          <button onClick={startGame} style={buttonStyle}>
             Start Game
           </button>
         )}
-        {gameState.status === GameStatus.PLAYING && (
-          <button onClick={handlePause} style={buttonStyle}>
+        {status === GameStatus.PLAYING && (
+          <button onClick={pauseGame} style={buttonStyle}>
             Pause
           </button>
         )}
-        {gameState.status === GameStatus.PAUSED && (
-          <button onClick={handleResume} style={buttonStyle}>
+        {status === GameStatus.PAUSED && (
+          <button onClick={resumeGame} style={buttonStyle}>
             Resume
           </button>
         )}
-        {gameState.status === GameStatus.GAME_OVER && (
+        {status === GameStatus.GAME_OVER && (
           <>
             <div style={{ color: '#f00', fontWeight: 'bold', textAlign: 'center' }}>
               GAME OVER
             </div>
-            <button onClick={handleStart} style={buttonStyle}>
+            <button onClick={startGame} style={buttonStyle}>
               New Game
             </button>
           </>

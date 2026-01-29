@@ -1,4 +1,4 @@
-import type { IRenderer } from '../../ports/IRenderer';
+import type { IRenderer } from '../../domain/ports/IRenderer';
 import { GRID_WIDTH, GRID_HEIGHT } from '../../domain/types';
 import type { GameState } from '../../domain/types';
 

@@ -1,4 +1,4 @@
-import type { GameState } from '../domain/types';
+import type { GameState } from '../types';
 
 export interface IRenderer {
   render(state: GameState): void;
