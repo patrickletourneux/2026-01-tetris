@@ -18,5 +18,6 @@ export interface GameState {
   grid: number[][];
   currentPiece: PieceShape | null;
   currentPosition: Position;
+  ghostPosition: Position;
   nextPiece: PieceShape | null;
 }

@@ -73,6 +73,23 @@ export function calculateScore(lines: number, level: number): number {
   return baseScores[lines] * level;
 }
 
+export function computeGhostPosition(grid: number[][], shape: number[][], x: number, y: number): number {
+  let ghostY = y;
+  while (isValidPosition(grid, shape, x, ghostY + 1)) {
+    ghostY++;
+  }
+  return ghostY;
+}
+
+export function updateGhostPosition(state: GameState): void {
+  if (state.currentPiece) {
+    state.ghostPosition = {
+      x: state.currentPosition.x,
+      y: computeGhostPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, state.currentPosition.y)
+    };
+  }
+}
+
 export function spawnPiece(state: GameState): void {
   state.currentPiece = state.nextPiece;
   state.nextPiece = randomPieceShape();
@@ -84,6 +101,8 @@ export function spawnPiece(state: GameState): void {
   if (!isValidPosition(state.grid, state.currentPiece!.shape, state.currentPosition.x, state.currentPosition.y)) {
     state.status = GameStatus.GAME_OVER;
   }
+
+  updateGhostPosition(state);
 }
 
 export function lockPiece(state: GameState): void {

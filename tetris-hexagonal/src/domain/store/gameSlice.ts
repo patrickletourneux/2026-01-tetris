@@ -7,7 +7,8 @@ import {
   rotateShape,
   randomPieceShape,
   spawnPiece,
-  lockPiece
+  lockPiece,
+  updateGhostPosition
 } from '../logic/gameLogic';
 
 const initialState: GameState = {
@@ -18,6 +19,7 @@ const initialState: GameState = {
   grid: createEmptyGrid(),
   currentPiece: null,
   currentPosition: { x: 0, y: 0 },
+  ghostPosition: { x: 0, y: 0 },
   nextPiece: null
 };
 
@@ -52,6 +54,7 @@ export const gameSlice = createSlice({
       const newX = state.currentPosition.x - 1;
       if (isValidPosition(state.grid, state.currentPiece.shape, newX, state.currentPosition.y)) {
         state.currentPosition.x = newX;
+        updateGhostPosition(state);
       }
     },
 
@@ -60,6 +63,7 @@ export const gameSlice = createSlice({
       const newX = state.currentPosition.x + 1;
       if (isValidPosition(state.grid, state.currentPiece.shape, newX, state.currentPosition.y)) {
         state.currentPosition.x = newX;
+        updateGhostPosition(state);
       }
     },
 
@@ -68,6 +72,7 @@ export const gameSlice = createSlice({
       const newY = state.currentPosition.y + 1;
       if (isValidPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, newY)) {
         state.currentPosition.y = newY;
+        updateGhostPosition(state);
       } else {
         lockPiece(state);
       }
@@ -78,6 +83,7 @@ export const gameSlice = createSlice({
       const rotated = rotateShape(state.currentPiece.shape);
       if (isValidPosition(state.grid, rotated, state.currentPosition.x, state.currentPosition.y)) {
         state.currentPiece.shape = rotated;
+        updateGhostPosition(state);
       }
     },
 
@@ -95,6 +101,7 @@ export const gameSlice = createSlice({
       const newY = state.currentPosition.y + 1;
       if (isValidPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, newY)) {
         state.currentPosition.y = newY;
+        updateGhostPosition(state);
       } else {
         lockPiece(state);
       }

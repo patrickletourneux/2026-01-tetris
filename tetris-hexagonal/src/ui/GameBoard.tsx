@@ -5,7 +5,7 @@ const CELL_SIZE = 30;
 
 export function GameBoard() {
   const { gameState } = useGameBoard();
-  const { grid, currentPiece, currentPosition } = gameState;
+  const { grid, currentPiece, currentPosition, ghostPosition } = gameState;
 
   const getCellColor = (row: number, col: number): string | null => {
     if (currentPiece) {
@@ -17,6 +17,16 @@ export function GameBoard() {
         currentPiece.shape[pieceRow][pieceCol]
       ) {
         return currentPiece.color;
+      }
+
+      const ghostRow = row - ghostPosition.y;
+      const ghostCol = col - ghostPosition.x;
+      if (
+        ghostRow >= 0 && ghostRow < currentPiece.shape.length &&
+        ghostCol >= 0 && ghostCol < currentPiece.shape[0].length &&
+        currentPiece.shape[ghostRow][ghostCol]
+      ) {
+        return currentPiece.color + '40';
       }
     }
     if (grid[row]?.[col]) {
