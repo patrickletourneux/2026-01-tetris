@@ -1,39 +1,25 @@
-import type { IRenderer } from '../../domain/ports/IRenderer';
 import type { IInputController } from '../../domain/ports/IInputController';
 import { InputAction } from '../../domain/ports/IInputController';
 import type { IGameActions } from '../../domain/ports/IGameActions';
 import { GameStatus } from '../../domain/types';
 
 export class GameController {
-  private renderer: IRenderer;
   private inputController: IInputController;
   private gameActions: IGameActions;
   private gameLoopInterval: number | null = null;
 
   constructor(
-    renderer: IRenderer,
     inputController: IInputController,
     gameActions: IGameActions
   ) {
-    this.renderer = renderer;
     this.inputController = inputController;
     this.gameActions = gameActions;
     this.initialize();
   }
 
   private initialize(): void {
-    this.setupRenderer();
     this.setupGameLoop();
     this.setupInput();
-  }
-
-  private setupRenderer(): void {
-    setTimeout(() => {
-      const canvas = document.getElementById('tetris-canvas') as HTMLCanvasElement;
-      if (canvas) {
-        this.renderer.initialize(canvas);
-      }
-    }, 0);
   }
 
   private setupGameLoop(): void {
@@ -43,8 +29,6 @@ export class GameController {
       if (state.status === GameStatus.PLAYING) {
         this.gameActions.tick();
       }
-
-      this.renderer.render(this.gameActions.getGameState());
     }, 500);
   }
 

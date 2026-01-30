@@ -1,7 +1,55 @@
+import { useGameBoard } from '../adapters/redux/useGameBoard';
+import { GRID_WIDTH, GRID_HEIGHT } from '../domain/types';
+
+const CELL_SIZE = 30;
+
 export function GameBoard() {
+  const { gameState } = useGameBoard();
+  const { grid, currentPiece, currentPosition } = gameState;
+
+  const getCellColor = (row: number, col: number): string | null => {
+    if (currentPiece) {
+      const pieceRow = row - currentPosition.y;
+      const pieceCol = col - currentPosition.x;
+      if (
+        pieceRow >= 0 && pieceRow < currentPiece.shape.length &&
+        pieceCol >= 0 && pieceCol < currentPiece.shape[0].length &&
+        currentPiece.shape[pieceRow][pieceCol]
+      ) {
+        return currentPiece.color;
+      }
+    }
+    if (grid[row]?.[col]) {
+      return '#888';
+    }
+    return null;
+  };
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <canvas id="tetris-canvas" />
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${GRID_WIDTH}, ${CELL_SIZE}px)`,
+      gridTemplateRows: `repeat(${GRID_HEIGHT}, ${CELL_SIZE}px)`,
+      border: '2px solid #333',
+      backgroundColor: '#000',
+    }}>
+      {Array.from({ length: GRID_HEIGHT }, (_, row) =>
+        Array.from({ length: GRID_WIDTH }, (_, col) => {
+          const color = getCellColor(row, col);
+          return (
+            <div
+              key={`${row}-${col}`}
+              style={{
+                width: CELL_SIZE,
+                height: CELL_SIZE,
+                backgroundColor: color ?? '#000',
+                border: color ? '1px solid #000' : 'none',
+                boxSizing: 'border-box',
+              }}
+            />
+          );
+        })
+      )}
     </div>
   );
 }

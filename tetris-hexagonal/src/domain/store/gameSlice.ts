@@ -1,17 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GameStatus, GRID_WIDTH, GRID_HEIGHT } from '../types';
+import { GameStatus } from '../types';
 import type { GameState } from '../types';
-import { Game } from '../models/Game';
-
-// Singleton game instance managed by Redux
-let gameInstance: Game | null = null;
+import {
+  createEmptyGrid,
+  isValidPosition,
+  rotateShape,
+  randomPieceShape,
+  spawnPiece,
+  lockPiece
+} from '../logic/gameLogic';
 
 const initialState: GameState = {
   status: GameStatus.IDLE,
   score: 0,
   level: 1,
   linesCleared: 0,
-  grid: Array(GRID_HEIGHT).fill(0).map(() => Array(GRID_WIDTH).fill(0)),
+  grid: createEmptyGrid(),
   currentPiece: null,
   currentPosition: { x: 0, y: 0 },
   nextPiece: null
@@ -21,80 +25,82 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    startGame: () => {
-      gameInstance = new Game();
-      gameInstance.start();
-      return gameInstance.getState();
+    startGame: (state) => {
+      state.status = GameStatus.PLAYING;
+      state.score = 0;
+      state.level = 1;
+      state.linesCleared = 0;
+      state.grid = createEmptyGrid();
+      state.nextPiece = randomPieceShape();
+      spawnPiece(state);
     },
 
     pauseGame: (state) => {
-      if (gameInstance) {
-        gameInstance.pause();
-        return gameInstance.getState();
+      if (state.status === GameStatus.PLAYING) {
+        state.status = GameStatus.PAUSED;
       }
-      return state;
     },
 
     resumeGame: (state) => {
-      if (gameInstance) {
-        gameInstance.resume();
-        return gameInstance.getState();
+      if (state.status === GameStatus.PAUSED) {
+        state.status = GameStatus.PLAYING;
       }
-      return state;
     },
 
     moveLeft: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.moveLeft();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      const newX = state.currentPosition.x - 1;
+      if (isValidPosition(state.grid, state.currentPiece.shape, newX, state.currentPosition.y)) {
+        state.currentPosition.x = newX;
       }
-      return state;
     },
 
     moveRight: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.moveRight();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      const newX = state.currentPosition.x + 1;
+      if (isValidPosition(state.grid, state.currentPiece.shape, newX, state.currentPosition.y)) {
+        state.currentPosition.x = newX;
       }
-      return state;
     },
 
     moveDown: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.moveDown();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      const newY = state.currentPosition.y + 1;
+      if (isValidPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, newY)) {
+        state.currentPosition.y = newY;
+      } else {
+        lockPiece(state);
       }
-      return state;
     },
 
     rotate: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.rotate();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      const rotated = rotateShape(state.currentPiece.shape);
+      if (isValidPosition(state.grid, rotated, state.currentPosition.x, state.currentPosition.y)) {
+        state.currentPiece.shape = rotated;
       }
-      return state;
     },
 
     drop: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.drop();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      while (isValidPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, state.currentPosition.y + 1)) {
+        state.currentPosition.y += 1;
+        state.score += 2;
       }
-      return state;
+      lockPiece(state);
     },
 
     tick: (state) => {
-      if (gameInstance && state.status === GameStatus.PLAYING) {
-        gameInstance.moveDown();
-        return gameInstance.getState();
+      if (state.status !== GameStatus.PLAYING || !state.currentPiece) return;
+      const newY = state.currentPosition.y + 1;
+      if (isValidPosition(state.grid, state.currentPiece.shape, state.currentPosition.x, newY)) {
+        state.currentPosition.y = newY;
+      } else {
+        lockPiece(state);
       }
-      return state;
     },
 
-    resetGame: () => {
-      gameInstance = null;
-      return initialState;
-    }
+    resetGame: () => initialState
   }
 });
 
@@ -110,13 +116,5 @@ export const {
   tick,
   resetGame
 } = gameSlice.actions;
-
-// Selector to get drop interval
-export const selectDropInterval = (_state: { game: GameState }): number => {
-  if (gameInstance) {
-    return gameInstance.getDropInterval();
-  }
-  return 1000;
-};
 
 export default gameSlice.reducer;
