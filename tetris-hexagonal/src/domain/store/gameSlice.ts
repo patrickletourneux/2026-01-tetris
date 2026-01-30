@@ -5,11 +5,13 @@ import {
   createEmptyGrid,
   isValidPosition,
   rotateShape,
-  randomPieceShape,
+  randomPieceShape
+} from '../logic/gameLogic';
+import {
   spawnPiece,
   lockPiece,
   updateGhostPosition
-} from '../logic/gameLogic';
+} from '../logic/stateMutators';
 
 const initialState: GameState = {
   status: GameStatus.IDLE,
