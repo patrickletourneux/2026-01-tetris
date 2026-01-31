@@ -2,9 +2,9 @@ import type { GameStatus, PieceShape } from '../types';
 
 /**
  * Port définissant l'accès à l'état du jeu pour la couche UI.
- * Implémenté par un adaptateur Redux dans /adapters/redux/.
+ * Implémenté par un adaptateur dans /adapters/hooks/.
  */
-export interface GameStatePort {
+export interface IGameState {
   status: GameStatus;
   score: number;
   level: number;

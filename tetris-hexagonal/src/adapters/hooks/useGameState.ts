@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from './hooks';
-import type { GameStatePort } from '../../domain/ports/GameStatePort';
+import type { IGameState } from '../../domain/ports/IGameState';
 import {
   startGame as startGameAction,
   pauseGame as pauseGameAction,
@@ -7,10 +7,10 @@ import {
 } from '../../domain/store/gameSlice';
 
 /**
- * Adaptateur Redux implémentant le GameStatePort.
+ * Adaptateur Redux implémentant IGameState.
  * Seul point d'accès au store Redux pour les composants UI.
  */
-export const useGameState = (): GameStatePort => {
+export const useGameState = (): IGameState => {
   const dispatch = useAppDispatch();
   const gameState = useAppSelector((state) => state.game);
 

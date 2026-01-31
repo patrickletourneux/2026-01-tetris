@@ -1,11 +1,11 @@
 import { useAppSelector } from './hooks';
-import type { GameBoardPort } from '../../domain/ports/GameBoardPort';
+import type { IGameBoard } from '../../domain/ports/IGameBoard';
 
 /**
- * Adaptateur Redux implémentant GameBoardPort.
+ * Adaptateur Redux implémentant IGameBoard.
  * Fournit l'état du jeu complet pour le rendu du plateau.
  */
-export const useGameBoard = (): GameBoardPort => {
+export const useGameBoard = (): IGameBoard => {
   const gameState = useAppSelector((state) => state.game);
   return { gameState };
 };

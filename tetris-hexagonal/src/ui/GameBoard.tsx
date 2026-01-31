@@ -1,4 +1,4 @@
-import { useGameBoard } from '../adapters/redux/useGameBoard';
+import { useGameBoard } from '../adapters/hooks/useGameBoard';
 import { GRID_WIDTH, GRID_HEIGHT } from '../domain/types';
 
 const CELL_SIZE = 30;

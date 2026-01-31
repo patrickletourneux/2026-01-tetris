@@ -3,7 +3,7 @@ import { GameBoard } from './ui/GameBoard';
 import { GameInfo } from './ui/GameInfo';
 import { GameController } from './adapters/controllers/GameController';
 import { KeyboardInputController } from './adapters/input/KeyboardInputController';
-import { ReduxGameActions } from './adapters/redux/ReduxGameActions';
+import { ReduxGameActions } from './adapters/ReduxGameActions';
 import './App.css';
 
 function App() {

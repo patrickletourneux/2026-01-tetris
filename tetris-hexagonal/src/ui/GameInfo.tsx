@@ -1,5 +1,5 @@
 import { GameStatus } from '../domain/types';
-import { useGameState } from '../adapters/redux/useGameState';
+import { useGameState } from '../adapters/hooks/useGameState';
 
 export function GameInfo() {
   const {
