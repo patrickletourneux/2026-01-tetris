@@ -25,10 +25,10 @@ export class KeyboardInputController implements IInputController {
           this.onAction(InputAction.MOVE_DOWN);
           break;
         case 'ArrowUp':
-        case ' ':
           event.preventDefault();
           this.onAction(InputAction.ROTATE);
           break;
+        case ' ':
         case 'Enter':
           event.preventDefault();
           this.onAction(InputAction.DROP);
