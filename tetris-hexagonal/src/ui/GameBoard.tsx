@@ -43,12 +43,12 @@ export function GameBoard() {
       border: '2px solid #333',
       backgroundColor: '#000',
     }}>
-      {Array.from({ length: GRID_HEIGHT }, (_, row) =>
-        Array.from({ length: GRID_WIDTH }, (_, col) => {
-          const color = getCellColor(row, col);
+      {grid.map((row, rowIndex) =>
+        row.map((_, colIndex) => {
+          const color = getCellColor(rowIndex, colIndex);
           return (
             <div
-              key={`${row}-${col}`}
+              key={`${rowIndex}-${colIndex}`}
               style={{
                 width: CELL_SIZE,
                 height: CELL_SIZE,
