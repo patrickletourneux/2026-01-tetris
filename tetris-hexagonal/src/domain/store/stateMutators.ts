@@ -5,7 +5,7 @@ import {
   randomPieceShape,
   calculateScore,
   computeGhostPosition
-} from './gameLogic';
+} from '../logic/gameLogic';
 
 export function placePieceOnGrid(grid: number[][], shape: number[][], x: number, y: number): void {
   for (let row = 0; row < shape.length; row++) {

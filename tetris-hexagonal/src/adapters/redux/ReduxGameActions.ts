@@ -1,6 +1,6 @@
-import type { IGameActions } from '../domain/ports/IGameActions';
-import type { GameState } from '../domain/types';
-import { store } from '../domain/store/store';
+import type { IGameActions } from '../../domain/ports/IGameActions';
+import type { GameState } from '../../domain/types';
+import { store } from '../../domain/store/store';
 import {
   moveLeft,
   moveRight,
@@ -10,7 +10,7 @@ import {
   tick,
   pauseGame,
   resumeGame
-} from '../domain/store/gameSlice';
+} from '../../domain/store/gameSlice';
 
 /**
  * Adaptateur Redux implémentant IGameActions.

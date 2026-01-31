@@ -1,7 +1,7 @@
 import { placePieceOnGrid, clearLines, updateGhostPosition, lockPiece } from './stateMutators';
-import { createEmptyGrid } from './gameLogic';
+import { createEmptyGrid } from '../logic/gameLogic';
 import { GRID_WIDTH, GRID_HEIGHT, GameStatus, PieceType } from '../types';
-import type { GameState, PieceShape } from '../types';
+import type { GameState } from '../types';
 
 function createPlayingState(overrides: Partial<GameState> = {}): GameState {
   return {

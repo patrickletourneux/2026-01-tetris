@@ -11,7 +11,7 @@ import {
   spawnPiece,
   lockPiece,
   updateGhostPosition
-} from '../logic/stateMutators';
+} from './stateMutators';
 
 const initialState: GameState = {
   status: GameStatus.IDLE,

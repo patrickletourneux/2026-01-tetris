@@ -11,7 +11,7 @@ import reducer, {
   resetGame
 } from './gameSlice';
 import { GameStatus, GRID_WIDTH, GRID_HEIGHT, PieceType } from '../types';
-import type { GameState, PieceShape } from '../types';
+import type { GameState } from '../types';
 import { createEmptyGrid } from '../logic/gameLogic';
 
 function createPlayingState(overrides: Partial<GameState> = {}): GameState {
