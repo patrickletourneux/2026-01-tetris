@@ -51,6 +51,12 @@ export function GameInfo() {
     }}>
       <h2 style={{ marginTop: 0 }}>Tetris</h2>
 
+      {(status === GameStatus.PLAYING || status === GameStatus.PAUSED) && (
+        <button onClick={startGame} style={{ ...buttonStyle, marginBottom: '20px' }}>
+          Restart
+        </button>
+      )}
+
       <div style={{ marginBottom: '20px' }}>
         <div style={{ marginBottom: '10px' }}>
           <strong>Score:</strong> {score}
@@ -103,8 +109,8 @@ export function GameInfo() {
         <div style={{ marginTop: '10px' }}>
           <div>← → : Move</div>
           <div>↓ : Soft drop</div>
-          <div>↑ / Space : Rotate</div>
-          <div>Enter : Hard drop</div>
+          <div>↑ : Rotate</div>
+          <div>Space / Enter : Hard drop</div>
           <div>P / Esc : Pause</div>
         </div>
       </div>
