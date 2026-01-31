@@ -51,7 +51,7 @@ export function GameInfo(): JSX.Element {
           onClick={isActive ? startGame : undefined}
           disabled={!isActive}
           style={{
-            ...buttonStyle,
+            ...restartButtonStyle,
             marginBottom: '20px',
             opacity: isActive ? 1 : 0.4,
             cursor: isActive ? 'pointer' : 'not-allowed',
@@ -146,6 +146,17 @@ const buttonStyle: React.CSSProperties = {
   padding: '10px 20px',
   fontSize: '16px',
   backgroundColor: '#4CAF50',
+  color: 'white',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontWeight: 'bold'
+};
+
+const restartButtonStyle: React.CSSProperties = {
+  padding: '6px 12px',
+  fontSize: '12px',
+  backgroundColor: '#2196F3',
   color: 'white',
   border: 'none',
   borderRadius: '4px',
