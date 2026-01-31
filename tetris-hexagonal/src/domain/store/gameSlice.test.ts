@@ -8,6 +8,8 @@ import reducer, {
   rotate,
   drop,
   tick,
+  setGridWidth,
+  setGridHeight,
   resetGame
 } from './gameSlice';
 import { GameStatus, GRID_WIDTH, GRID_HEIGHT, PieceType } from '../types';
@@ -33,6 +35,8 @@ function createPlayingState(overrides: Partial<GameState> = {}): GameState {
       shape: [[1, 1], [1, 1]],
       color: '#f0f000'
     },
+    gridWidth: GRID_WIDTH,
+    gridHeight: GRID_HEIGHT,
     ...overrides
   };
 }
@@ -252,6 +256,89 @@ describe('tick', () => {
     const state = reducer(playing, tick());
 
     expect(state.grid[GRID_HEIGHT - 2][0]).toBe(1);
+  });
+});
+
+describe('setGridWidth', () => {
+  it('should update grid width and reset game state', () => {
+    const playing = createPlayingState({ score: 500, level: 3 });
+    const state = reducer(playing, setGridWidth(15));
+
+    expect(state.gridWidth).toBe(15);
+    expect(state.grid[0].length).toBe(15);
+    expect(state.status).toBe(GameStatus.IDLE);
+    expect(state.score).toBe(0);
+    expect(state.level).toBe(1);
+    expect(state.currentPiece).toBeNull();
+    expect(state.nextPiece).toBeNull();
+  });
+
+  it('should clamp width to minimum of 4', () => {
+    const idle = createPlayingState({ status: GameStatus.IDLE });
+    const state = reducer(idle, setGridWidth(2));
+
+    expect(state.gridWidth).toBe(4);
+  });
+
+  it('should clamp width to maximum of 30', () => {
+    const idle = createPlayingState({ status: GameStatus.IDLE });
+    const state = reducer(idle, setGridWidth(50));
+
+    expect(state.gridWidth).toBe(30);
+  });
+
+  it('should reset even if already IDLE', () => {
+    const idle = createPlayingState({
+      status: GameStatus.IDLE,
+      score: 100,
+      gridWidth: 10
+    });
+    const state = reducer(idle, setGridWidth(12));
+
+    expect(state.gridWidth).toBe(12);
+    expect(state.score).toBe(0);
+  });
+});
+
+describe('setGridHeight', () => {
+  it('should update grid height and reset game state', () => {
+    const playing = createPlayingState({ score: 500, level: 3 });
+    const state = reducer(playing, setGridHeight(25));
+
+    expect(state.gridHeight).toBe(25);
+    expect(state.grid.length).toBe(25);
+    expect(state.status).toBe(GameStatus.IDLE);
+    expect(state.score).toBe(0);
+    expect(state.level).toBe(1);
+    expect(state.currentPiece).toBeNull();
+    expect(state.nextPiece).toBeNull();
+  });
+
+  it('should clamp height to minimum of 4', () => {
+    const idle = createPlayingState({ status: GameStatus.IDLE });
+    const state = reducer(idle, setGridHeight(2));
+
+    expect(state.gridHeight).toBe(4);
+  });
+
+  it('should clamp height to maximum of 40', () => {
+    const idle = createPlayingState({ status: GameStatus.IDLE });
+    const state = reducer(idle, setGridHeight(50));
+
+    expect(state.gridHeight).toBe(40);
+  });
+
+  it('should reset even during GAME_OVER', () => {
+    const gameOver = createPlayingState({
+      status: GameStatus.GAME_OVER,
+      score: 1000,
+      gridHeight: 20
+    });
+    const state = reducer(gameOver, setGridHeight(15));
+
+    expect(state.gridHeight).toBe(15);
+    expect(state.status).toBe(GameStatus.IDLE);
+    expect(state.score).toBe(0);
   });
 });
 

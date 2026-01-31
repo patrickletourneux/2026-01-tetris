@@ -1,11 +1,12 @@
 import { useGameBoard } from '../adapters/hooks/useGameBoard';
-import { GRID_WIDTH, GRID_HEIGHT } from '../domain/types';
 
 const CELL_SIZE = 30;
 
 export function GameBoard() {
   const { gameState } = useGameBoard();
   const { grid, currentPiece, currentPosition, ghostPosition } = gameState;
+  const gridWidth = grid[0]?.length ?? 10;
+  const gridHeight = grid.length;
 
   const getCellColor = (row: number, col: number): string | null => {
     if (currentPiece) {
@@ -38,8 +39,8 @@ export function GameBoard() {
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: `repeat(${GRID_WIDTH}, ${CELL_SIZE}px)`,
-      gridTemplateRows: `repeat(${GRID_HEIGHT}, ${CELL_SIZE}px)`,
+      gridTemplateColumns: `repeat(${gridWidth}, ${CELL_SIZE}px)`,
+      gridTemplateRows: `repeat(${gridHeight}, ${CELL_SIZE}px)`,
       border: '2px solid #333',
       backgroundColor: '#000',
     }}>

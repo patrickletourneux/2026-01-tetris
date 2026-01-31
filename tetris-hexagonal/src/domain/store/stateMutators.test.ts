@@ -22,6 +22,8 @@ function createPlayingState(overrides: Partial<GameState> = {}): GameState {
       shape: [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
       color: '#a000f0'
     },
+    gridWidth: GRID_WIDTH,
+    gridHeight: GRID_HEIGHT,
     ...overrides
   };
 }

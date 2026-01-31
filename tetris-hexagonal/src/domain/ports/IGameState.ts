@@ -10,7 +10,11 @@ export interface IGameState {
   level: number;
   linesCleared: number;
   nextPiece: PieceShape | null;
+  gridWidth: number;
+  gridHeight: number;
   startGame(): void;
   pauseGame(): void;
   resumeGame(): void;
+  setGridWidth(width: number): void;
+  setGridHeight(height: number): void;
 }

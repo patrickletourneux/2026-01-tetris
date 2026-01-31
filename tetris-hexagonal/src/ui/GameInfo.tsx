@@ -9,9 +9,13 @@ export function GameInfo(): JSX.Element {
     level,
     linesCleared,
     nextPiece,
+    gridWidth,
+    gridHeight,
     startGame,
     pauseGame,
-    resumeGame
+    resumeGame,
+    setGridWidth,
+    setGridHeight
   } = useGameState();
 
   const renderNextPiece = (): JSX.Element | null => {
@@ -115,6 +119,51 @@ export function GameInfo(): JSX.Element {
       overflow: 'hidden',
     }}>
       <h2 style={{ marginTop: 0 }}>Tetris</h2>
+
+      <div style={{ marginBottom: '15px' }}>
+        <div style={{ marginBottom: '8px' }}>
+          <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>
+            Width ({gridWidth}):
+          </label>
+          <input
+            type="number"
+            value={gridWidth}
+            onChange={(e) => setGridWidth(Number(e.target.value))}
+            min={4}
+            max={30}
+            style={{
+              width: '100%',
+              padding: '4px',
+              fontSize: '14px',
+              backgroundColor: '#fff',
+              color: '#000',
+              border: '1px solid #555',
+              borderRadius: '4px'
+            }}
+          />
+        </div>
+        <div style={{ marginBottom: '8px' }}>
+          <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>
+            Height ({gridHeight}):
+          </label>
+          <input
+            type="number"
+            value={gridHeight}
+            onChange={(e) => setGridHeight(Number(e.target.value))}
+            min={4}
+            max={40}
+            style={{
+              width: '100%',
+              padding: '4px',
+              fontSize: '14px',
+              backgroundColor: '#fff',
+              color: '#000',
+              border: '1px solid #555',
+              borderRadius: '4px'
+            }}
+          />
+        </div>
+      </div>
 
       {renderButtons()}
 

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { GameStatus } from '../types';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { GameStatus, GRID_WIDTH, GRID_HEIGHT } from '../types';
 import type { GameState } from '../types';
 import {
   createEmptyGrid,
@@ -22,7 +22,9 @@ const initialState: GameState = {
   currentPiece: null,
   currentPosition: { x: 0, y: 0 },
   ghostPosition: { x: 0, y: 0 },
-  nextPiece: null
+  nextPiece: null,
+  gridWidth: GRID_WIDTH,
+  gridHeight: GRID_HEIGHT
 };
 
 export const gameSlice = createSlice({
@@ -34,7 +36,7 @@ export const gameSlice = createSlice({
       state.score = 0;
       state.level = 1;
       state.linesCleared = 0;
-      state.grid = createEmptyGrid();
+      state.grid = createEmptyGrid(state.gridWidth, state.gridHeight);
       state.nextPiece = randomPieceShape();
       spawnPiece(state);
     },
@@ -109,6 +111,28 @@ export const gameSlice = createSlice({
       }
     },
 
+    setGridWidth: (state, action: PayloadAction<number>) => {
+      state.gridWidth = Math.max(4, Math.min(30, action.payload));
+      state.grid = createEmptyGrid(state.gridWidth, state.gridHeight);
+      state.status = GameStatus.IDLE;
+      state.score = 0;
+      state.level = 1;
+      state.linesCleared = 0;
+      state.currentPiece = null;
+      state.nextPiece = null;
+    },
+
+    setGridHeight: (state, action: PayloadAction<number>) => {
+      state.gridHeight = Math.max(4, Math.min(40, action.payload));
+      state.grid = createEmptyGrid(state.gridWidth, state.gridHeight);
+      state.status = GameStatus.IDLE;
+      state.score = 0;
+      state.level = 1;
+      state.linesCleared = 0;
+      state.currentPiece = null;
+      state.nextPiece = null;
+    },
+
     resetGame: () => initialState
   }
 });
@@ -123,6 +147,8 @@ export const {
   rotate,
   drop,
   tick,
+  setGridWidth,
+  setGridHeight,
   resetGame
 } = gameSlice.actions;
 

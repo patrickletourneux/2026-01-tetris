@@ -1,4 +1,4 @@
-import { GameStatus, GRID_WIDTH, GRID_HEIGHT } from '../types';
+import { GameStatus } from '../types';
 import type { GameState } from '../types';
 import {
   isValidPosition,
@@ -8,12 +8,15 @@ import {
 } from '../logic/gameLogic';
 
 export function placePieceOnGrid(grid: number[][], shape: number[][], x: number, y: number): void {
+  const gridHeight = grid.length;
+  const gridWidth = grid[0]?.length ?? 0;
+
   for (let row = 0; row < shape.length; row++) {
     for (let col = 0; col < shape[row].length; col++) {
       if (shape[row][col]) {
         const newX = x + col;
         const newY = y + row;
-        if (newY >= 0 && newY < GRID_HEIGHT && newX >= 0 && newX < GRID_WIDTH) {
+        if (newY >= 0 && newY < gridHeight && newX >= 0 && newX < gridWidth) {
           grid[newY][newX] = 1;
         }
       }
@@ -22,11 +25,14 @@ export function placePieceOnGrid(grid: number[][], shape: number[][], x: number,
 }
 
 export function clearLines(grid: number[][]): number {
+  const gridHeight = grid.length;
+  const gridWidth = grid[0]?.length ?? 0;
   let linesCleared = 0;
-  for (let row = GRID_HEIGHT - 1; row >= 0; row--) {
+
+  for (let row = gridHeight - 1; row >= 0; row--) {
     if (grid[row].every(cell => cell !== 0)) {
       grid.splice(row, 1);
-      grid.unshift(Array(GRID_WIDTH).fill(0));
+      grid.unshift(Array(gridWidth).fill(0));
       linesCleared++;
       row++;
     }
@@ -47,7 +53,7 @@ export function spawnPiece(state: GameState): void {
   state.currentPiece = state.nextPiece;
   state.nextPiece = randomPieceShape();
   state.currentPosition = {
-    x: Math.floor(GRID_WIDTH / 2) - Math.floor(state.currentPiece!.shape[0].length / 2),
+    x: Math.floor(state.gridWidth / 2) - Math.floor(state.currentPiece!.shape[0].length / 2),
     y: 0
   };
 

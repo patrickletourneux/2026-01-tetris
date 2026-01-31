@@ -20,4 +20,6 @@ export interface GameState {
   currentPosition: Position;
   ghostPosition: Position;
   nextPiece: PieceShape | null;
+  gridWidth: number;
+  gridHeight: number;
 }

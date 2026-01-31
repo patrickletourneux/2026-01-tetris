@@ -3,7 +3,9 @@ import type { IGameState } from '../../domain/ports/IGameState';
 import {
   startGame as startGameAction,
   pauseGame as pauseGameAction,
-  resumeGame as resumeGameAction
+  resumeGame as resumeGameAction,
+  setGridWidth as setGridWidthAction,
+  setGridHeight as setGridHeightAction
 } from '../../domain/store/gameSlice';
 
 /**
@@ -20,8 +22,12 @@ export const useGameState = (): IGameState => {
     level: gameState.level,
     linesCleared: gameState.linesCleared,
     nextPiece: gameState.nextPiece,
+    gridWidth: gameState.gridWidth,
+    gridHeight: gameState.gridHeight,
     startGame: () => dispatch(startGameAction()),
     pauseGame: () => dispatch(pauseGameAction()),
     resumeGame: () => dispatch(resumeGameAction()),
+    setGridWidth: (width: number) => dispatch(setGridWidthAction(width)),
+    setGridHeight: (height: number) => dispatch(setGridHeightAction(height)),
   };
 };

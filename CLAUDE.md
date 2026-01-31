@@ -1,8 +1,11 @@
 
 # Projet : Application Frontend avec Architecture Hexagonale
 **Organisation** : Patrick Letourneux
-**Tech Stack** : React, TypeScript, Redux
+**Tech Stack** : React, TypeScript, 
 ---
+
+## langage
+tous les fichiers de script sont anglais, les commentaires aussi.
 
 ## Contexte du Projet
 Cette application utilise une **architecture hexagonale** pour isoler la logique métier des détails techniques. Le store Redux fait partie du **domaine** (`/domain/store`) car il modélise l'état métier de l'application. La logique métier pure (fonctions de calcul, validation, transformation) est dans `/domain/logic/`. Les composants React n'accèdent jamais directement au store Redux : l'accès se fait via des **ports** et des **adaptateurs**. Les **hooks React** ne doivent jamais apparaître dans le domaine.
