@@ -9,3 +9,5 @@ export type { GameState } from './game';
 
 export { AuthStatus } from './auth';
 export type { User, AuthState } from './auth';
+
+export type { RssItem } from './rss';

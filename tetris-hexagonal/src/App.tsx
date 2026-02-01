@@ -1,5 +1,6 @@
 import { GameBoard } from './ui/GameBoard';
 import { GameInfo } from './ui/GameInfo';
+import { RssFeed } from './ui/RssFeed';
 import { AuthGuard } from './ui/AuthGuard';
 import { useNasaBackground } from './adapters/hooks/useNasaBackground';
 import './App.css';
@@ -37,6 +38,7 @@ function App() {
         <div style={{ position: 'relative', zIndex: 1, display: 'flex', gap: '40px' }}>
           <GameBoard />
           <GameInfo />
+          <RssFeed />
         </div>
       </div>
     </AuthGuard>
