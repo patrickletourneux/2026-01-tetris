@@ -38,6 +38,10 @@ Cette application utilise une **architecture hexagonale** pour isoler la logique
   /ui                 # Composants React, pages
 ```
 
+## Test
+test unitaire pour tester le domain
+lancer les tests avant de build le projet pour etre sur que tout fonctionne
+
 ---
 
 ## Exemples de Code
