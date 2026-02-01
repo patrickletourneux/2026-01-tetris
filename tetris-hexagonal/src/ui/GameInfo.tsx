@@ -64,7 +64,7 @@ export function GameInfo(): JSX.Element {
           Restart
         </button>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minHeight: '90px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minHeight: '50px' }}>
           {status === GameStatus.IDLE && (
             <button onClick={startGame} style={buttonStyle}>
               Start Game
@@ -120,10 +120,10 @@ export function GameInfo(): JSX.Element {
     }}>
       <h2 style={{ marginTop: 0 }}>Tetris</h2>
 
-      <div style={{ marginBottom: '15px' }}>
-        <div style={{ marginBottom: '8px' }}>
-          <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>
-            Width ({gridWidth}):
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '15px' }}>
+        <div style={{ flex: 1 }}>
+          <label style={{ fontSize: '10px', display: 'block', marginBottom: '2px' }}>
+            W ({gridWidth})
           </label>
           <input
             type="number"
@@ -133,18 +133,19 @@ export function GameInfo(): JSX.Element {
             max={30}
             style={{
               width: '100%',
-              padding: '4px',
-              fontSize: '14px',
+              padding: '2px 4px',
+              fontSize: '12px',
               backgroundColor: '#fff',
               color: '#000',
               border: '1px solid #555',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              boxSizing: 'border-box'
             }}
           />
         </div>
-        <div style={{ marginBottom: '8px' }}>
-          <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px' }}>
-            Height ({gridHeight}):
+        <div style={{ flex: 1 }}>
+          <label style={{ fontSize: '10px', display: 'block', marginBottom: '2px' }}>
+            H ({gridHeight})
           </label>
           <input
             type="number"
@@ -154,12 +155,13 @@ export function GameInfo(): JSX.Element {
             max={40}
             style={{
               width: '100%',
-              padding: '4px',
-              fontSize: '14px',
+              padding: '2px 4px',
+              fontSize: '12px',
               backgroundColor: '#fff',
               color: '#000',
               border: '1px solid #555',
-              borderRadius: '4px'
+              borderRadius: '4px',
+              boxSizing: 'border-box'
             }}
           />
         </div>
@@ -167,14 +169,14 @@ export function GameInfo(): JSX.Element {
 
       {renderButtons()}
 
-      <div style={{ marginBottom: '20px' }}>
-        <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: '5px' }}>
           <strong>Score:</strong> {score}
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: '5px' }}>
           <strong>Level:</strong> {level}
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: '5px' }}>
           <strong>Lines:</strong> {linesCleared}
         </div>
       </div>
