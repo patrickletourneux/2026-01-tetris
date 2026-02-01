@@ -11,6 +11,9 @@ export class KeyboardInputController implements IInputController {
     this.handleKeyDown = (event: KeyboardEvent) => {
       if (!this.onAction) return;
 
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+
       switch (event.key) {
         case 'ArrowLeft':
           event.preventDefault();

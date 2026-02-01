@@ -2,9 +2,6 @@ fichiers idées à faire plus tard , ne pas utiliser dans le context du code par
 
 # Front
 
-file tree par usecase
-
-gestion erreur propre
 ajouter son
 faire responsive
 deployer sur server pour test mobile/PC

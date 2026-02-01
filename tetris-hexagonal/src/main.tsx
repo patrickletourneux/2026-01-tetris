@@ -6,11 +6,14 @@ import { GameController } from './adapters/controllers/GameController'
 import { KeyboardInputController } from './adapters/input/KeyboardInputController'
 import { ReduxGameActions } from './adapters/redux/ReduxGameActions'
 import { ConsoleErrorHandler } from './adapters/error/ConsoleErrorHandler'
+import { MockAuthApiAdapter } from './adapters/api/MockAuthApiAdapter'
+import { setAuthApi } from './domain/store/authSlice'
 import { ErrorBoundary } from './ui/ErrorBoundary'
 import './index.css'
 import App from './App.tsx'
 
 const errorHandler = new ConsoleErrorHandler();
+setAuthApi(new MockAuthApiAdapter());
 const inputController = new KeyboardInputController();
 const gameActions = new ReduxGameActions();
 new GameController(inputController, gameActions);
