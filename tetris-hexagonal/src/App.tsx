@@ -7,6 +7,7 @@ import './App.css';
 
 function App() {
   const { photo } = useNasaBackground();
+  console.log(photo)
 
   return (
     <AuthGuard>
@@ -14,9 +15,9 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
+        height: '100vh',
         backgroundColor: '#0a0a0a',
-        backgroundImage: photo?.hdurl ? `url(${photo.hdurl})` : undefined,
+        backgroundImage: (photo?.hdurl || photo?.url) ? `url(${photo?.hdurl ?? photo?.url})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -24,7 +25,7 @@ function App() {
         padding: '20px',
         position: 'relative'
       }}>
-        {photo?.hdurl && (
+        {(photo?.hdurl || photo?.url) && (
           <div style={{
             position: 'absolute',
             top: 0,
@@ -36,8 +37,8 @@ function App() {
           }} />
         )}
         <div style={{ position: 'relative', zIndex: 1, display: 'flex', gap: '40px' }}>
-          <GameBoard />
           <GameInfo />
+          <GameBoard />
           <RssFeed />
         </div>
       </div>
