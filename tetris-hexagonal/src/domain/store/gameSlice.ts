@@ -5,7 +5,9 @@ import {
   createEmptyGrid,
   isValidPosition,
   rotateShape,
-  randomPieceShape
+  randomPieceShape,
+  clampGridWidth,
+  clampGridHeight
 } from '../logic/gameLogic';
 import {
   spawnPiece,
@@ -112,7 +114,7 @@ export const gameSlice = createSlice({
     },
 
     setGridWidth: (state, action: PayloadAction<number>) => {
-      state.gridWidth = Math.max(4, Math.min(30, action.payload));
+      state.gridWidth = clampGridWidth(action.payload);
       state.grid = createEmptyGrid(state.gridWidth, state.gridHeight);
       state.status = GameStatus.IDLE;
       state.score = 0;
@@ -123,7 +125,7 @@ export const gameSlice = createSlice({
     },
 
     setGridHeight: (state, action: PayloadAction<number>) => {
-      state.gridHeight = Math.max(4, Math.min(40, action.payload));
+      state.gridHeight = clampGridHeight(action.payload);
       state.grid = createEmptyGrid(state.gridWidth, state.gridHeight);
       state.status = GameStatus.IDLE;
       state.score = 0;

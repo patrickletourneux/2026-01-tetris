@@ -15,7 +15,12 @@ export class NasaApiAdapter implements INasaApi {
       throw new Error(`NASA API error: ${response.status}`);
     }
 
-    const data = await response.json();
+    let data: Record<string, string>;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error('NASA API returned invalid JSON');
+    }
 
     return {
       url: data.url,

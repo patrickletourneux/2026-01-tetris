@@ -56,3 +56,11 @@ export function computeGhostPosition(grid: number[][], shape: number[][], x: num
   }
   return ghostY;
 }
+
+export function clampGridWidth(value: number): number {
+  return Math.max(4, Math.min(30, Math.floor(value)));
+}
+
+export function clampGridHeight(value: number): number {
+  return Math.max(4, Math.min(40, Math.floor(value)));
+}
