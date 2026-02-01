@@ -1,6 +1,7 @@
 # Tetris React/Redux TypeScript
 
 Testing Claude Code by building a Tetris game with React, Redux and TypeScript.
+And learn architecture haxagonale in the same time.
 
 ## Tech Stack
 
