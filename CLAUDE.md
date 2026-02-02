@@ -1,16 +1,25 @@
 
-# Projet : Application Frontend avec Architecture Hexagonale
+# Projet : Application avec Architecture Hexagonale
 **Organisation** : Patrick Letourneux
-**Tech Stack** : React, TypeScript, 
+
 ---
 
-## langage
-tous les fichiers de script sont anglais, les commentaires aussi.
+## Langage
+Tous les fichiers de script sont en anglais, les commentaires aussi.
+
+## Test
+Test unitaire pour tester le domain.
+Lancer les tests avant de build le projet pour etre sur que tout fonctionne.
+
+---
+
+# Frontend
+
+**Tech Stack** : React, TypeScript
+**Dossier** : `tetris-hexagonal/frontend/`
 
 ## Contexte du Projet
 Cette application utilise une **architecture hexagonale** pour isoler la logique métier des détails techniques. Le store Redux fait partie du **domaine** (`/domain/store`) car il modélise l'état métier de l'application. La logique métier pure (fonctions de calcul, validation, transformation) est dans `/domain/logic/`. Les composants React n'accèdent jamais directement au store Redux : l'accès se fait via des **ports** et des **adaptateurs**. Les **hooks React** ne doivent jamais apparaître dans le domaine.
-
----
 
 ## Architecture Hexagonale : Principes Clés
 - **Domaine** : Contient la logique métier (`/logic`), les **ports** (interfaces) et le **store Redux** (état métier). Aucun hook React dans le domaine.
@@ -20,12 +29,10 @@ Cette application utilise une **architecture hexagonale** pour isoler la logique
             L'objectif est que les composants fassent uniquement du rendu, sans logique. Et qu'ils aient le minimum possible de state et de props. que la logique soit dans le Domain.
             Utiliser du react simple avec des hook simple, eviter les useRef.
 
----
-
 ## Structure des Dossiers
 
 ```
-/src
+/frontend/src
   /domain            # Logique métier, ports, store
     /logic            # Fonctions pures de logique métier
     /ports            # Interfaces pour interagir avec l'état global
@@ -37,12 +44,6 @@ Cette application utilise une **architecture hexagonale** pour isoler la logique
     /redux            # Adaptateur Redux (hooks React ici)
   /ui                 # Composants React, pages
 ```
-
-## Test
-test unitaire pour tester le domain
-lancer les tests avant de build le projet pour etre sur que tout fonctionne
-
----
 
 ## Exemples de Code
 
@@ -134,9 +135,7 @@ export function GameInfo() {
 }
 ```
 
----
-
-## Conventions et Bonnes Pratiques
+## Conventions Frontend
 
 - **TypeScript** : Obligatoire pour tous les fichiers. Typer les slices, les ports et les adaptateurs.
 - **Tests** : Tester la logique métier (`/domain/logic/`) et les adaptateurs en isolation.
@@ -144,3 +143,62 @@ export function GameInfo() {
 - **Redux** : Le store est dans `/domain/store` (état métier), les reducers importent la logique depuis `/domain/logic/`. L'UI n'accède au store que via les adaptateurs.
 - **Hooks React** : Interdits dans `/domain`. Ils n'apparaissent que dans `/adapters` et `/ui`.
 - **Logique métier** : Les fonctions pures de logique (validation, calcul, transformation) sont dans `/domain/logic/`, séparées des reducers Redux.
+
+---
+
+# Backend
+
+**Tech Stack** : Node.js, Express, PostgreSQL (sans ORM, utilisation directe de `pg`)
+**Dossier** : `tetris-hexagonal/backend/`
+
+## Architecture
+
+Le backend suit aussi une architecture hexagonale avec les mêmes principes d'inversion de dépendances.
+
+## Structure des Dossiers
+
+```
+/backend/src
+  /domain            # Logique métier, ports
+    /logic            # Fonctions pures de logique métier
+    /ports            # Interfaces (repositories, services)
+    /types            # Types, interfaces, constantes du domaine
+  /adapters           # Implémentations des ports
+    /db               # Accès PostgreSQL via pg (queries SQL directes)
+    /api              # Routes Express, middlewares
+  /config             # Configuration (database, env)
+```
+
+## Conventions Backend
+
+- **TypeScript** : Obligatoire pour tous les fichiers.
+- **Pas d'ORM** : Utilisation directe du module `pg` (node-postgres) avec des requêtes SQL.
+- **Tests** : Tester la logique métier et les adaptateurs en isolation.
+- **Documentation** : Chaque port et adaptateur doit être documenté avec JSDoc.
+
+---
+
+# Conventions API REST (échanges Front / Back)
+
+- **Format** : JSON uniquement (`Content-Type: application/json`).
+- **Préfixe** : Toutes les routes backend sont préfixées par `/api` (ex : `/api/auth/login`, `/api/scores`).
+- **Méthodes HTTP** :
+  - `GET` pour la lecture
+  - `POST` pour la création
+  - `PUT` pour la mise à jour complète
+  - `PATCH` pour la mise à jour partielle
+  - `DELETE` pour la suppression
+- **Codes HTTP** :
+  - `200` : succès
+  - `201` : création réussie
+  - `400` : erreur de validation / requête invalide
+  - `401` : non authentifié
+  - `403` : accès interdit
+  - `404` : ressource introuvable
+  - `500` : erreur serveur
+- **Format des réponses** :
+  - Succès : `{ "data": ... }`
+  - Erreur : `{ "error": "message d'erreur" }`
+- **Authentification** : JWT via header `Authorization: Bearer <token>`.
+- **Côté frontend** : Les appels API passent par des adaptateurs (dans `/adapters/api/`) qui implémentent des ports du domaine. Les composants React n'appellent jamais `fetch` directement.
+- **Côté backend** : Les routes Express (dans `/adapters/api/`) appellent la logique métier via les ports du domaine. Aucune logique métier dans les routes.

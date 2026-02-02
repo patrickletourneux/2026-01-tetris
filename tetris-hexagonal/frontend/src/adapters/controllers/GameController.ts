@@ -3,6 +3,11 @@ import { InputAction } from '../../domain/ports/IInputController';
 import type { IGameActions } from '../../domain/ports/IGameActions';
 import { GameStatus } from '../../domain/types';
 
+/**
+ * Mediator pattern: coordinates IInputController and IGameActions
+ * without them knowing each other. Routes input events to game actions
+ * based on the current game state.
+ */
 export class GameController {
   private inputController: IInputController;
   private gameActions: IGameActions;
