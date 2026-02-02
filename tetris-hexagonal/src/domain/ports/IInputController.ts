@@ -10,6 +10,6 @@ export const InputAction = {
 export type InputAction = typeof InputAction[keyof typeof InputAction];
 
 export interface IInputController {
-  initialize(onAction: (action: InputAction) => void): void;
+  initEventListeners(onAction: (action: InputAction) => void): void;
   cleanup(): void;
 }

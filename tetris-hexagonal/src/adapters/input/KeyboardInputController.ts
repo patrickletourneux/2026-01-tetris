@@ -5,7 +5,7 @@ export class KeyboardInputController implements IInputController {
   private onAction: ((action: InputAction) => void) | null = null;
   private handleKeyDown: ((event: KeyboardEvent) => void) | null = null;
 
-  initialize(onAction: (action: InputAction) => void): void {
+  initEventListeners(onAction: (action: InputAction) => void): void {
     this.onAction = onAction;
 
     this.handleKeyDown = (event: KeyboardEvent) => {

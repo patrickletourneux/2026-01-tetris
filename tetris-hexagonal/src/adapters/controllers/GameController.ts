@@ -33,7 +33,7 @@ export class GameController {
   }
 
   private setupInput(): void {
-    this.inputController.initialize((action: InputAction) => {
+    this.inputController.initEventListeners((action: InputAction) => {
       const state = this.gameActions.getGameState();
 
       switch (action) {
